@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#ECECEC">
+
+    <com.fornewid.neumorphism.NeumorphImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="16dp"
+        android:src="@android:drawable/btn_star"
+        app:layout_shapeType="flat"
+        app:layout_shadowElevation="6dp"
+        app:layout_shadowColor="#888888" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_switch"
+        android:textSize="24sp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subtitle_switch"
+        android:textSize="16sp"
+        android:textColor="#777777"
+        android:layout_marginBottom="24dp" />
+
+    <com.fornewid.neumorphism.NeumorphCardView
+        android:id="@+id/cardUsername"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        app:layout_shapeType="flat"
+        app:layout_shadowElevation="4dp"
+        app:layout_shadowColor="#888888">
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="@string/username_hint"
+            android:padding="16dp"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </com.fornewid.neumorphism.NeumorphCardView>
+
+    <com.fornewid.neumorphism.NeumorphCardView
+        android:id="@+id/cardPassword"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="24dp"
+        app:layout_shapeType="flat"
+        app:layout_shadowElevation="4dp"
+        app:layout_shadowColor="#888888">
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="@string/password_hint"
+            android:padding="16dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:inputType="textPassword" />
+    </com.fornewid.neumorphism.NeumorphCardView>
+
+    <com.fornewid.neumorphism.NeumorphButton
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/login"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_shapeType="pressed"
+        app:layout_shadowElevation="8dp"
+        app:layout_shadowColor="#555555" />
+</LinearLayout>
