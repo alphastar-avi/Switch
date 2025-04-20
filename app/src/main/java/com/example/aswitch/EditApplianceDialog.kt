@@ -13,7 +13,8 @@ import java.util.*
 class EditApplianceDialog(
     context: Context,
     private val appliance: Appliance,
-    private val onSave: (Appliance) -> Unit
+    private val onSave: (Appliance) -> Unit,
+    private val onDelete: () -> Unit
 ) : Dialog(context) {
 
     private val timeFormat = SimpleDateFormat("hh:mm aa", Locale.getDefault())
@@ -26,6 +27,7 @@ class EditApplianceDialog(
     private lateinit var btnSave: Button
     private lateinit var btnCancel: Button
     private lateinit var btnResetTimer: Button
+    private lateinit var btnDelete: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class EditApplianceDialog(
         btnSave = findViewById(R.id.btnSave)
         btnCancel = findViewById(R.id.btnCancel)
         btnResetTimer = findViewById(R.id.btnResetTimer)
+        btnDelete = findViewById(R.id.btnDelete)
 
         // Set current values
         etApplianceName.setText(appliance.name)
@@ -59,6 +62,11 @@ class EditApplianceDialog(
             startTime = ""
             endTime = ""
             updateTimeButtons()
+        }
+
+        btnDelete.setOnClickListener {
+            onDelete()
+            dismiss()
         }
 
         btnSave.setOnClickListener {

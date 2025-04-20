@@ -64,13 +64,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showEditDialog(appliance: Appliance) {
-        EditApplianceDialog(this, appliance) { editedAppliance ->
-            val index = appliances.indexOfFirst { it.name == appliance.name }
-            if (index != -1) {
-                appliances[index] = editedAppliance
-                applianceAdapter.notifyItemChanged(index)
+        EditApplianceDialog(this, appliance,
+            onSave = { editedAppliance ->
+                val index = appliances.indexOfFirst { it.name == appliance.name }
+                if (index != -1) {
+                    appliances[index] = editedAppliance
+                    applianceAdapter.notifyItemChanged(index)
+                }
+            },
+            onDelete = {
+                val index = appliances.indexOfFirst { it.name == appliance.name }
+                if (index != -1) {
+                    appliances.removeAt(index)
+                    applianceAdapter.notifyItemRemoved(index)
+                }
             }
-        }.show()
+        ).show()
     }
 
     private fun loadSampleAppliances() {
