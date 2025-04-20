@@ -13,23 +13,31 @@ import java.util.*
 class EditApplianceDialog(
     context: Context,
     private val appliance: Appliance,
-    private val onApplianceEdited: (Appliance) -> Unit
+    private val onSave: (Appliance) -> Unit
 ) : Dialog(context) {
 
     private val timeFormat = SimpleDateFormat("hh:mm aa", Locale.getDefault())
     private var startTime: String = ""
     private var endTime: String = ""
+    private lateinit var etApplianceName: EditText
+    private lateinit var btnStartTime: Button
+    private lateinit var btnEndTime: Button
+    private lateinit var switchPower: Switch
+    private lateinit var btnSave: Button
+    private lateinit var btnCancel: Button
+    private lateinit var btnResetTimer: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_edit_appliance)
 
-        val etApplianceName = findViewById<EditText>(R.id.etApplianceName)
-        val btnStartTime = findViewById<Button>(R.id.btnStartTime)
-        val btnEndTime = findViewById<Button>(R.id.btnEndTime)
-        val switchPower = findViewById<Switch>(R.id.switchPower)
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
-        val btnSave = findViewById<Button>(R.id.btnSave)
+        etApplianceName = findViewById(R.id.etApplianceName)
+        btnStartTime = findViewById(R.id.btnStartTime)
+        btnEndTime = findViewById(R.id.btnEndTime)
+        switchPower = findViewById(R.id.switchPower)
+        btnSave = findViewById(R.id.btnSave)
+        btnCancel = findViewById(R.id.btnCancel)
+        btnResetTimer = findViewById(R.id.btnResetTimer)
 
         // Set current values
         etApplianceName.setText(appliance.name)
@@ -47,23 +55,32 @@ class EditApplianceDialog(
             showTimePicker(false)
         }
 
-        btnCancel.setOnClickListener {
-            dismiss()
+        btnResetTimer.setOnClickListener {
+            startTime = ""
+            endTime = ""
+            updateTimeButtons()
         }
 
         btnSave.setOnClickListener {
-            val name = etApplianceName.text.toString()
-            if (name.isNotEmpty()) {
-                val editedAppliance = Appliance(
-                    name,
-                    appliance.type,
-                    startTime,
-                    endTime,
-                    switchPower.isChecked
-                )
-                onApplianceEdited(editedAppliance)
-                dismiss()
+            val name = etApplianceName.text.toString().trim()
+            if (name.isEmpty()) {
+                etApplianceName.error = "Name is required"
+                return@setOnClickListener
             }
+
+            val editedAppliance = Appliance(
+                name = name,
+                type = appliance.type,
+                startTime = startTime,
+                endTime = endTime,
+                isOn = switchPower.isChecked
+            )
+            onSave(editedAppliance)
+            dismiss()
+        }
+
+        btnCancel.setOnClickListener {
+            dismiss()
         }
     }
 
@@ -92,9 +109,6 @@ class EditApplianceDialog(
     }
 
     private fun updateTimeButtons() {
-        val btnStartTime = findViewById<Button>(R.id.btnStartTime)
-        val btnEndTime = findViewById<Button>(R.id.btnEndTime)
-
         btnStartTime.text = if (startTime.isNotEmpty()) startTime else "Select Time"
         btnEndTime.text = if (endTime.isNotEmpty()) endTime else "Select Time"
     }

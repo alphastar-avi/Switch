@@ -1,5 +1,6 @@
 package com.example.aswitch
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Check login state
+        val isLoggedIn = getSharedPreferences("login", MODE_PRIVATE)
+            .getBoolean("isLoggedIn", false)
+        
+        if (!isLoggedIn) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_main)
 
         rvAppliances = findViewById(R.id.rvAppliances)
@@ -63,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadSampleAppliances() {
         appliances.addAll(listOf(
-            Appliance("Bedroom Light", ApplianceType.LIGHT, "08:00", "22:00", true),
+            Appliance("Bedroom Light", ApplianceType.LIGHT, "08:00", "22:00", false),
             Appliance("Living Room Fan", ApplianceType.FAN, "10:00", "18:00", false),
             Appliance("Kitchen Light", ApplianceType.LIGHT, "", "", false),
             Appliance("TV", ApplianceType.TV, "", "", false)

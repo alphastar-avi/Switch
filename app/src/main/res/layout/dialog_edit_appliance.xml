@@ -67,6 +67,19 @@
             android:textColor="@color/primary"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/btnResetTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/neumorphic_button_background"
+            android:padding="12dp"
+            android:text="Reset Timer"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
