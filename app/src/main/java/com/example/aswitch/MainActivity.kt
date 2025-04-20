@@ -29,12 +29,7 @@ class MainActivity : AppCompatActivity() {
         applianceAdapter = ApplianceAdapter(
             appliances = appliances,
             onEditClick = { appliance ->
-                showEditApplianceDialog(appliance)
-            },
-            onApplianceClick = { appliance ->
-                // Toggle the switch state when clicking on the appliance item
-                appliance.isOn = !appliance.isOn
-                applianceAdapter.notifyDataSetChanged()
+                showEditDialog(appliance)
             }
         )
         rvAppliances.apply {

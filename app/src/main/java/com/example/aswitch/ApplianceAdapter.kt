@@ -6,15 +6,21 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ApplianceAdapter(
     private val appliances: List<Appliance>,
-    private val onEditClick: (Appliance) -> Unit,
-    private val onApplianceClick: (Appliance) -> Unit
+    private val onEditClick: (Appliance) -> Unit
 ) : RecyclerView.Adapter<ApplianceAdapter.ApplianceViewHolder>() {
+
+    private val relayService = RelayService()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplianceViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,7 +29,7 @@ class ApplianceAdapter(
     }
 
     override fun onBindViewHolder(holder: ApplianceViewHolder, position: Int) {
-        holder.bind(appliances[position])
+        holder.bind(appliances[position], position)
     }
 
     override fun getItemCount(): Int = appliances.size
@@ -39,10 +45,17 @@ class ApplianceAdapter(
         private val tvEndLabel: TextView = itemView.findViewById(R.id.tvEndLabel)
         private val llTimeInfo: View = itemView.findViewById(R.id.llTimeInfo)
         private val verticalCenter: View = itemView.findViewById(R.id.verticalCenter)
+        private var isProgrammaticChange = false
+        private var currentPosition = -1
 
-        fun bind(appliance: Appliance) {
+        fun bind(appliance: Appliance, position: Int) {
+            currentPosition = position
             tvName.text = appliance.name
+            
+            // Set switch state without triggering listener
+            isProgrammaticChange = true
             switchPower.isChecked = appliance.isOn
+            isProgrammaticChange = false
 
             // Show/hide time information and adjust name position
             if (appliance.startTime.isNotEmpty() && appliance.endTime.isNotEmpty()) {
@@ -77,15 +90,30 @@ class ApplianceAdapter(
 
             // Set click listeners
             switchPower.setOnCheckedChangeListener { _, isChecked ->
-                appliance.isOn = isChecked
+                if (!isProgrammaticChange) {
+                    appliance.isOn = isChecked
+                    // Get the relay number based on the stored position
+                    val relayNumber = currentPosition + 1
+                    coroutineScope.launch {
+                        val success = relayService.controlRelay(relayNumber, isChecked)
+                        if (!success) {
+                            // If the request failed, revert the switch state
+                            isProgrammaticChange = true
+                            switchPower.isChecked = !isChecked
+                            appliance.isOn = !isChecked
+                            isProgrammaticChange = false
+                            Toast.makeText(
+                                itemView.context,
+                                "Failed to control relay $relayNumber",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
             }
 
             btnEdit.setOnClickListener {
                 onEditClick(appliance)
-            }
-
-            itemView.setOnClickListener {
-                onApplianceClick(appliance)
             }
         }
     }
