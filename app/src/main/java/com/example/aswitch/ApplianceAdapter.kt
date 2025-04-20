@@ -15,12 +15,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ApplianceAdapter(
-    private val appliances: List<Appliance>,
+    private val appliances: MutableList<Appliance>,
     private val onEditClick: (Appliance) -> Unit
 ) : RecyclerView.Adapter<ApplianceAdapter.ApplianceViewHolder>() {
 
     private val relayService = RelayService()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+    fun updateApplianceState(applianceName: String, isOn: Boolean) {
+        val index = appliances.indexOfFirst { it.name == applianceName }
+        if (index != -1) {
+            appliances[index] = appliances[index].copy(isOn = isOn)
+            notifyItemChanged(index)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplianceViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -47,9 +55,11 @@ class ApplianceAdapter(
         private val verticalCenter: View = itemView.findViewById(R.id.verticalCenter)
         private var isProgrammaticChange = false
         private var currentPosition = -1
+        private var currentAppliance: Appliance? = null
 
         fun bind(appliance: Appliance, position: Int) {
             currentPosition = position
+            currentAppliance = appliance
             tvName.text = appliance.name
             
             // Set switch state without triggering listener
@@ -91,29 +101,31 @@ class ApplianceAdapter(
             // Set click listeners
             switchPower.setOnCheckedChangeListener { _, isChecked ->
                 if (!isProgrammaticChange) {
-                    appliance.isOn = isChecked
-                    // Get the relay number based on the stored position
-                    val relayNumber = currentPosition + 1
-                    coroutineScope.launch {
-                        val success = relayService.controlRelay(relayNumber, isChecked)
-                        if (!success) {
-                            // If the request failed, revert the switch state
-                            isProgrammaticChange = true
-                            switchPower.isChecked = !isChecked
-                            appliance.isOn = !isChecked
-                            isProgrammaticChange = false
-                            Toast.makeText(
-                                itemView.context,
-                                "Failed to control relay $relayNumber",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    currentAppliance?.let { appliance ->
+                        appliance.isOn = isChecked
+                        // Get the relay number based on the stored position
+                        val relayNumber = currentPosition + 1
+                        coroutineScope.launch {
+                            val success = relayService.controlRelay(relayNumber, isChecked)
+                            if (!success) {
+                                // If the request failed, revert the switch state
+                                isProgrammaticChange = true
+                                switchPower.isChecked = !isChecked
+                                appliance.isOn = !isChecked
+                                isProgrammaticChange = false
+                                Toast.makeText(
+                                    itemView.context,
+                                    "Failed to control relay $relayNumber",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
             }
 
             btnEdit.setOnClickListener {
-                onEditClick(appliance)
+                currentAppliance?.let { onEditClick(it) }
             }
         }
     }

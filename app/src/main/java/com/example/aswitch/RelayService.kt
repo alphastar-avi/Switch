@@ -16,6 +16,8 @@ class RelayService {
         try {
             val action = if (turnOn) "on" else "off"
             val url = URL("$BASE_URL/relay$relayNumber/$action")
+            Log.d(TAG, "Sending request to: $url")
+            
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
             connection.connectTimeout = 5000
@@ -24,7 +26,12 @@ class RelayService {
             val responseCode = connection.responseCode
             Log.d(TAG, "Relay $relayNumber $action response: $responseCode")
             
-            responseCode == HttpURLConnection.HTTP_OK
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                Log.e(TAG, "Failed to control relay $relayNumber. Response code: $responseCode")
+                return@withContext false
+            }
+            
+            true
         } catch (e: Exception) {
             Log.e(TAG, "Error controlling relay $relayNumber: ${e.message}")
             false
