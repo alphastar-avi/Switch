@@ -12,4 +12,5 @@
     <color name="accent">#007AFF</color>
     <color name="card_background">#2C2C2C</color>
     <color name="black">#000000</color>
+    <color name="divider">#E0E0E0</color>
 </resources>

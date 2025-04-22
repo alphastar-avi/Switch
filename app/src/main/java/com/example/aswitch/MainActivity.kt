@@ -9,17 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
+import android.widget.ImageButton
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SettingsDialog.OnIpChangedListener {
     private lateinit var rvAppliances: RecyclerView
     private lateinit var fabAddAppliance: ExtendedFloatingActionButton
+    private lateinit var btnSettings: ImageButton
     private lateinit var applianceAdapter: ApplianceAdapter
     private val appliances = mutableListOf<Appliance>()
     private lateinit var applianceScheduler: ApplianceScheduler
+    private lateinit var relayStateReceiver: RelayStateReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Initialize NetworkUtils
+        NetworkUtils.initialize(this)
         
         // Check login state
         val isLoggedIn = getSharedPreferences("login", MODE_PRIVATE)
@@ -35,11 +41,23 @@ class MainActivity : AppCompatActivity() {
 
         rvAppliances = findViewById(R.id.rvAppliances)
         fabAddAppliance = findViewById(R.id.fabAddAppliance)
+        btnSettings = findViewById(R.id.btnSettings)
         applianceScheduler = ApplianceScheduler(this)
+
+        // Initialize and register the relay state receiver
+        relayStateReceiver = RelayStateReceiver()
+        val filter = IntentFilter("com.example.aswitch.RELAY_STATE_CHANGED")
+        registerReceiver(relayStateReceiver, filter)
 
         setupRecyclerView()
         setupClickListeners()
         loadSampleAppliances()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Unregister the receiver when the activity is destroyed
+        unregisterReceiver(relayStateReceiver)
     }
 
     private fun setupRecyclerView() {
@@ -59,6 +77,18 @@ class MainActivity : AppCompatActivity() {
         fabAddAppliance.setOnClickListener {
             showAddDialog()
         }
+        
+        btnSettings.setOnClickListener {
+            val settingsDialog = SettingsDialog()
+            settingsDialog.setOnIpChangedListener(this)
+            settingsDialog.show(supportFragmentManager, "settings_dialog")
+        }
+    }
+
+    override fun onIpChanged(newIp: String) {
+        // Update the BASE_URL in NetworkUtils
+        NetworkUtils.updateBaseUrl(newIp)
+        // You might want to refresh any ongoing network operations here
     }
 
     private fun showAddDialog() {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ESP32 IP Address"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etIpAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter IP Address"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnSaveIp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save IP Address"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="24dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnDeviceData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Device Data"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"/>
+
+</LinearLayout> 

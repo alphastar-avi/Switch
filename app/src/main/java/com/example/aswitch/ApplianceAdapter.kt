@@ -102,7 +102,11 @@ class ApplianceAdapter(
             switchPower.setOnCheckedChangeListener { _, isChecked ->
                 if (!isProgrammaticChange) {
                     currentAppliance?.let { appliance ->
-                        appliance.isOn = isChecked
+                        // Update the local state immediately for better UX
+                        isProgrammaticChange = true
+                        switchPower.isChecked = isChecked
+                        isProgrammaticChange = false
+                        
                         // Get the relay number based on the stored position
                         val relayNumber = currentPosition + 1
                         coroutineScope.launch {
@@ -118,6 +122,9 @@ class ApplianceAdapter(
                                     "Failed to control relay $relayNumber",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                            } else {
+                                // Update the appliance state in the list
+                                appliances[currentPosition] = appliance.copy(isOn = isChecked)
                             }
                         }
                     }

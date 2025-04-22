@@ -6,16 +6,25 @@ import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 
-class RelayService {
+class RelayService : NetworkUtils.OnIpChangedListener {
     companion object {
-        private const val BASE_URL = "http://192.168.1.11"
         private const val TAG = "RelayService"
+    }
+
+    private var baseUrl: String = NetworkUtils.getBaseUrl()
+
+    init {
+        NetworkUtils.addIpChangeListener(this)
+    }
+
+    override fun onIpChanged(newIp: String) {
+        baseUrl = newIp
     }
 
     suspend fun controlRelay(relayNumber: Int, turnOn: Boolean): Boolean = withContext(Dispatchers.IO) {
         try {
             val action = if (turnOn) "on" else "off"
-            val url = URL("$BASE_URL/relay$relayNumber/$action")
+            val url = URL("$baseUrl/relay$relayNumber/$action")
             Log.d(TAG, "Sending request to: $url")
             
             val connection = url.openConnection() as HttpURLConnection
