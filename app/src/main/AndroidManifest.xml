@@ -31,9 +31,20 @@
         </activity>
 
         <receiver
+            android:name=".RelayStateReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.aswitch.RELAY_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".ApplianceAlarmReceiver"
-            android:enabled="true"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

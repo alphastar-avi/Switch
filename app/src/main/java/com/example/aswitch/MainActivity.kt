@@ -17,15 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var applianceAdapter: ApplianceAdapter
     private val appliances = mutableListOf<Appliance>()
     private lateinit var applianceScheduler: ApplianceScheduler
-    private val relayStateReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == "com.example.aswitch.RELAY_STATE_CHANGED") {
-                val applianceName = intent.getStringExtra("appliance_name") ?: return
-                val isOn = intent.getBooleanExtra("is_on", false)
-                updateApplianceState(applianceName, isOn)
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,16 +40,6 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         setupClickListeners()
         loadSampleAppliances()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        registerReceiver(relayStateReceiver, IntentFilter("com.example.aswitch.RELAY_STATE_CHANGED"))
-    }
-
-    override fun onPause() {
-        super.onPause()
-        unregisterReceiver(relayStateReceiver)
     }
 
     private fun setupRecyclerView() {
