@@ -63,10 +63,6 @@ The project includes:
 - Android instrumentation tests
 - UI tests using Espresso
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contributing
 
 1. Fork the project
@@ -75,10 +71,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Contact
-
-For any queries or suggestions, please feel free to reach out.
-
----
-
-Made with ❤️ by [Your Name] 
