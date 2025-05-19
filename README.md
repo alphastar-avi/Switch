@@ -34,7 +34,7 @@ A modern Android application built with Kotlin, featuring neumorphic design elem
 
 1. Clone the repository:
    ```bash
-   git clone [your-repository-url]
+   git clone https://github.com/alphastar-avi/Switch
    ```
 
 2. Open the project in Android Studio
