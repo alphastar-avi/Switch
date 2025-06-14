@@ -1,6 +1,13 @@
 # Switch Android App
 
-A modern Android application built with Kotlin, featuring neumorphic design elements and a clean architecture.
+A application built with Kotlin, featuring neumorphic design elements and a clean architecture.
+
+
+
+https://github.com/user-attachments/assets/19f9a014-4367-4381-8283-9b20a9983fc3
+
+
+
 
 ## Features
 
@@ -15,20 +22,12 @@ A modern Android application built with Kotlin, featuring neumorphic design elem
 - **Language**: Kotlin
 - **Minimum SDK**: 28 (Android 9.0)
 - **Target SDK**: 35
-- **Architecture**: Clean Architecture
 - **Dependencies**:
   - Neumorphism UI library
   - AndroidX Core KTX
   - Material Design
   - Gson
-  - JUnit for testing
 
-## Prerequisites
-
-- Android Studio (latest version recommended)
-- JDK 11 or higher
-- Android SDK with API level 28 or higher
-- Gradle
 
 ## Installation
 
@@ -43,31 +42,5 @@ A modern Android application built with Kotlin, featuring neumorphic design elem
 
 4. Build and run the application
 
-## Project Structure
 
-```
-app/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   └── res/
-│   └── test/
-├── build.gradle.kts
-└── proguard-rules.pro
-```
-
-## Testing
-
-The project includes:
-- Unit tests using JUnit
-- Android instrumentation tests
-- UI tests using Espresso
-
-## Contributing
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
