@@ -11,11 +11,13 @@ https://github.com/user-attachments/assets/19f9a014-4367-4381-8283-9b20a9983fc3
 
 ## Features
 
+- Modifiable IP address of ESP32
 - Modern UI with Neumorphic design
 - Built with Kotlin
 - Material Design components
 - Gson for JSON handling
 - Compatible with Android 9.0 (API 28) and above
+
 
 ## Technical Stack
 
