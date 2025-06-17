@@ -12,6 +12,7 @@ https://github.com/user-attachments/assets/19f9a014-4367-4381-8283-9b20a9983fc3
 ## Features
 
 - Modifiable IP address of ESP32
+- Timer based activation 
 - Modern UI with Neumorphic design
 - Built with Kotlin
 - Material Design components
