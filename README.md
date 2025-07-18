@@ -11,18 +11,15 @@ https://github.com/user-attachments/assets/19f9a014-4367-4381-8283-9b20a9983fc3
 
 ## Features
 
-- Modifiable IP address of ESP32.
-- Timer based activation.
-- Modern UI with Neumorphic design.
-- Built with Kotlin.
-- Material Design components.
-- Gson for JSON handling.
+- Modifiable IP address of ESP32
+- Timer based activation
+- Modern UI with Neumorphic design
+- Material Design components
 - Compatible with Android 9.0 (API 28) and above.
 
 
 ## Technical Stack
 
-- **Language**: Kotlin
 - **Minimum SDK**: 28 (Android 9.0)
 - **Target SDK**: 35
 - **Dependencies**:
