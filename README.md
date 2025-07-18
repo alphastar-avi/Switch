@@ -36,11 +36,11 @@ https://github.com/user-attachments/assets/19f9a014-4367-4381-8283-9b20a9983fc3
    git clone https://github.com/alphastar-avi/Switch
    ```
 
-2. Open the project in Android Studio
+2. Open the project in Android Studio.
 
-3. Sync the project with Gradle files
+3. Sync the project with Gradle files.
 
-4. Build and run the application
+4. Build and run the application.
 
 
 
