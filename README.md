@@ -40,7 +40,7 @@ https://github.com/user-attachments/assets/19f9a014-4367-4381-8283-9b20a9983fc3
 
 3. Sync the project with Gradle files.
 
-4. Build and run the application.
+4. Build and run the application...
 
 
 
