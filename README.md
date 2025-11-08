@@ -1,6 +1,6 @@
 # Switch Android App
 
-A application built with Kotlin, featuring neumorphic design elements 
+A application built with Kotlin, featuring neumorphic design elements.
 
 
 
